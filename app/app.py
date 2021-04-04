@@ -23,10 +23,16 @@ def index():
 
 @app.route('/api/v1/auth/', methods=['GET', 'POST'])
 def auth():
-	if request.method == 'POST':
-		return redirect(url_for('test', username=username, password=password))
+	if request.args:
+		args = request.args
+		serialized = ", ".join(f"{k}: {v}" for k, v in request.args.items())
+		return f"(Query) {serialized}", 200
 	else:
-		return render_template('auth.html')
+		return "No query string received", 200
+	# if request.method == 'POST':
+	# 	return redirect(url_for('test', username=username, password=password))
+	# else:
+	# 	return render_template('auth.html')
 
 @app.route('/test/', methods=['POST'])
 def test():
