@@ -25,8 +25,8 @@ def index():
 def auth():
 	if request.args:
 		args = request.args
-		serialized = ", ".join(f"{k}: {v}" for k, v in request.args.items())
-		return f"(Query) {serialized}", 200
+		serialized = ", ".join("{0}: {1}".format(k,v) for k, v in request.args.items())
+		return "(Query) {0}".format(serialized), 200
 	else:
 		return "No query string received", 200
 	# if request.method == 'POST':
