@@ -1,0 +1,9 @@
+Channel: Local/89123456789@zvonar-dialer
+MaxRetries: 1
+RetryTime: 5
+WaitTime: 25
+Context: zvonar-informer
+Extension: 999
+Callerid: 999
+Account: autodialer
+Priority: 1
