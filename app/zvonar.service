@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve zvonar
+After=network.target
+
+[Service]
+User=sysadmin2
+Group=sysadmin2
+WorkingDirectory=/media/sysadmin2/Data/Project/zvonar-api
+Environment="PATH=/media/sysadmin2/Data/Project/zvonar-api/env/bin"
+ExecStart=/media/sysadmin2/Data/Project/zvonar-api/env/bin/uwsgi --ini app.ini
+
+[Install]
+WantedBy=multi-user.target

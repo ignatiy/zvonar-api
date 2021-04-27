@@ -38,7 +38,7 @@ def index():
 def call(username, password, filename, diallist):
 	if request.method == 'GET':
 		if escape(username) == "admin" and escape(password) == "admin":
-			out_file = "uploads/{0}.txt".format(escape(filename))
+			out_file = "/media/sysadmin2/Data/Project/zvonar-api/app/uploads/{0}.txt".format(escape(filename))
 			lists = [str(escape(diallist))]
 			for lines in lists:
 				with open(out_file, "w") as file:
