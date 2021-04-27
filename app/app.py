@@ -38,12 +38,12 @@ def index():
 def auth(username, password, filename, diallist):
 	if escape(username) == "admin" and escape(password) == "admin":
 		out_file = "uploads/{0}.txt".format(escape(filename))
-		lists = escape(diallist)
-		# print(lists)
-		with open(out_file, "w") as file:
-			for line in  lists:
-				print(line)
-				file.write(str(line.split(',')))
+		lists = [str(escape(diallist))]
+		for lines in lists:
+			with open(out_file, "w") as file:
+				file.write(lines.replace(',', '\n'))
+			with open(out_file, "a") as file:
+				file.write('\n')
 		return response(200, {"result": {"status": "ok", "code": 200, "message": "Ok!"}})
 
 
