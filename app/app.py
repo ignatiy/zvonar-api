@@ -28,60 +28,28 @@ def affected_num_to_code(cnt):
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return response(400, {"result": {"status": "error", "code": 400, "message": "File name not specified!"}})
+    return response(400, {"result": {"status": "error", "code": 400, "message": "Parameters not specified!"}})
 
 @app.route('/')
 def index():
-	return flask.redirect('/api/v1/auth/')
+	return flask.redirect('/api/v1/call/')
 
-@app.route('/api/v1/auth/<username>/<password>/<filename>/<diallist>/', methods=['GET', 'POST'])
-def auth(username, password, filename, diallist):
-	if escape(username) == "admin" and escape(password) == "admin":
-		out_file = "uploads/{0}.txt".format(escape(filename))
-		lists = [str(escape(diallist))]
-		for lines in lists:
-			with open(out_file, "w") as file:
-				file.write(lines.replace(',', '\n'))
-			with open(out_file, "a") as file:
-				file.write('\n')
-		return response(200, {"result": {"status": "ok", "code": 200, "message": "Ok!"}})
-
-
-		# if request.args:
-		# 	args = request.args
-		# 	serialized = ", ".join("{0}: {1}".format(k,v) for k, v in request.args.items())
-		# 	# print(to_json(serialized))
-		# 	# print(escape(name_file))
-		# 	# return '{}\'s profile'.format(escape(username))
-		# 	return "(Query) {0}".format(to_json(serialized)), 200
-		# else:
-		# 	# return "No query string received", 200
-		# 	return response(200, {"result": {"status": "error", "code": 204, "message": "No content!"}})
-		# if request.method == 'POST':
-		# 	return redirect(url_for('test', username=username, password=password))
-		# else:
-		# 	return render_template('auth.html')
+@app.route('/api/v1/call/<username>/<password>/<filename>/<diallist>/', methods=['GET', 'POST'])
+def call(username, password, filename, diallist):
+	if request.method == 'GET':
+		if escape(username) == "admin" and escape(password) == "admin":
+			out_file = "uploads/{0}.txt".format(escape(filename))
+			lists = [str(escape(diallist))]
+			for lines in lists:
+				with open(out_file, "w") as file:
+					file.write(lines.replace(',', '\n'))
+				with open(out_file, "a") as file:
+					file.write('\n')
+			return response(200, {"result": {"status": "ok", "code": 200, "message": "Ok! Dialing into the ringer zvonar"}})
+		else:
+			return response(401, {"result": {"status": "error", "code": 401, "message": "Unauthorized!"}})
 	else:
-		return response(401, {"result": {"status": "error", "code": 401, "message": "Unauthorized!"}})
-		# return response(affected_num_to_code(cnt), {})
-
-# @app.route('/test/', methods=['POST'])
-# def test():
-# 	username = request.form['username']
-# 	password = request.form['password']
-# 	if username == 'admin' and password == 'admin':
-# 		# return render_template('test.html')
-# 		res = make_response(render_template('test.html'))
-# 		res.set_cookie("user", username, max_age=60*60*24*365*2)
-# 		return res
-# 	else:
-# 		return response(401, {"result": {"status": "error", "code": 401, "message": "Unauthorized!"}})
+		return response(403, {"result": {"status": "error", "code": 403, "message": "Access is denied!"}})
 
 if __name__ == '__main__':
 	app.run(debug=True)
-
-
-# username = request.args.get('username')
-# password = request.args.get('password')
-# return username
-# это всё говнокодерство. я решил сделать бота в телеграм для того чтобы тот выдавал токен и по токену происходила авторизация
