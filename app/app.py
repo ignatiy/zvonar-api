@@ -52,4 +52,4 @@ def call(username, password, filename, diallist):
 		return response(403, {"result": {"status": "error", "code": 403, "message": "Access is denied!"}})
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(host='0.0.0.0')

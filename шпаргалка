@@ -1,5 +1,5 @@
 python3.6 -m venv env - создает виртуальное окружение
-source env/bin/activate - активирует его
-
-pip freeze > requirements.txt - добавляем список установленных пакетов в файл
-pip install -r requirements.txt - устанавливает список зависимостей программы
+source env/bin/activate - активирует виртуальное окружение
+deactivate - деактивирует виртуальное окружение
+pip3 freeze > requirements.txt - добавляем список установленных пакетов в файл
+pip3 install -r requirements.txt - устанавливает список зависимостей программы
