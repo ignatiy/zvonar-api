@@ -7,6 +7,7 @@ import requests
 import hashlib
 from markupsafe import escape
 import os
+from app import config
 
 app = flask.Flask(__name__)
 
@@ -28,28 +29,31 @@ def affected_num_to_code(cnt):
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return response(400, {"result": {"status": "error", "code": 400, "message": "Parameters not specified!"}})
+    return response(400, {"result": {"status": "error", "code": 400, "message": "Bad Request!"}})
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-	return flask.redirect('/api/v1/call/')
+	if request.method == 'GET':
+		return response(405, {"result": {"status": "error", "code": 405, "message": "Method Not Allowed!"}})
+	else:
+		return response(403, {"result": {"status": "error", "code": 403, "message": "Forbidden!"}})
 
 @app.route('/api/v1/call/<username>/<password>/<filename>/<diallist>/', methods=['GET', 'POST'])
 def call(username, password, filename, diallist):
 	if request.method == 'GET':
-		if escape(username) == "admin" and escape(password) == "admin":
-			out_file = "/media/sysadmin2/Data/Project/zvonar-api/app/uploads/{0}.txt".format(escape(filename))
+		if escape(username) == config.username and escape(password) == config.password:
+			out_file = "{0}{1}.txt".format(config.dir_upload, escape(filename))
 			lists = [str(escape(diallist))]
 			for lines in lists:
 				with open(out_file, "w") as file:
 					file.write(lines.replace(',', '\n'))
 				with open(out_file, "a") as file:
 					file.write('\n')
-			return response(200, {"result": {"status": "ok", "code": 200, "message": "Ok! Dialing into the ringer zvonar"}})
+			return response(200, {"result": {"status": "success", "code": 200, "message": "Ok! Dialing into the ringer zvonar"}})
 		else:
 			return response(401, {"result": {"status": "error", "code": 401, "message": "Unauthorized!"}})
 	else:
-		return response(403, {"result": {"status": "error", "code": 403, "message": "Access is denied!"}})
+		return response(403, {"result": {"status": "error", "code": 403, "message": "Forbidden!"}})
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0')
