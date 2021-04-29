@@ -7,7 +7,8 @@ import requests
 import hashlib
 from markupsafe import escape
 import os
-from app import config
+import config
+# from app import config
 
 app = flask.Flask(__name__)
 
@@ -44,11 +45,18 @@ def call(username, password, filename, diallist):
 		if escape(username) == config.username and escape(password) == config.password:
 			out_file = "{0}{1}.txt".format(config.dir_upload, escape(filename))
 			lists = [str(escape(diallist))]
-			for lines in lists:
-				with open(out_file, "w") as file:
-					file.write(lines.replace(',', '\n'))
-				with open(out_file, "a") as file:
-					file.write('\n')
+			if os.path.exists(out_file):
+				for lines in lists:
+					with open(out_file, "a") as file:
+						file.write(lines.replace(',', '\n'))
+					with open(out_file, "a") as file:
+						file.write('\n')
+			else:
+				for lines in lists:
+					with open(out_file, "w") as file:
+						file.write(lines.replace(',', '\n'))
+					with open(out_file, "a") as file:
+						file.write('\n')
 			return response(200, {"result": {"status": "success", "code": 200, "message": "Ok! Dialing into the ringer zvonar"}})
 		else:
 			return response(401, {"result": {"status": "error", "code": 401, "message": "Unauthorized!"}})
@@ -56,4 +64,4 @@ def call(username, password, filename, diallist):
 		return response(403, {"result": {"status": "error", "code": 403, "message": "Forbidden!"}})
 
 if __name__ == '__main__':
-	app.run(host='0.0.0.0')
+	app.run(debug=True)
