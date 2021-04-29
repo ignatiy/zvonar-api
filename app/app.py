@@ -15,6 +15,13 @@ app = flask.Flask(__name__)
 def to_json(data):
 	return json.dumps(data) + "\n"
 
+def is_number(element):
+    try:
+        float(element)
+        return True
+    except ValueError:
+        return False
+
 def response(code, data):
 	return flask.Response(
 		status=code,
@@ -44,19 +51,23 @@ def call(username, password, filename, diallist):
 	if request.method == 'GET':
 		if escape(username) == config.username and escape(password) == config.password:
 			out_file = "{0}{1}.txt".format(config.dir_upload, escape(filename))
-			lists = [str(escape(diallist))]
-			if os.path.exists(out_file):
-				for lines in lists:
-					with open(out_file, "a") as file:
-						file.write(lines.replace(',', '\n'))
-					with open(out_file, "a") as file:
-						file.write('\n')
-			else:
-				for lines in lists:
-					with open(out_file, "w") as file:
-						file.write(lines.replace(',', '\n'))
-					with open(out_file, "a") as file:
-						file.write('\n')
+			lists = str(escape(diallist))
+			lst = lists.split(',')
+			for element in lst:
+			    print(element)
+			    if element.isdigit():
+			        if os.path.exists(out_file):
+			        	with open(out_file, "a") as file:
+		        			file.write(element)
+		        		with open(out_file, "a") as file:
+		        			file.write('\n')
+			        else:
+			        	with open(out_file, "w") as file:
+		        			file.write(element)
+		        		with open(out_file, "a") as file:
+		        			file.write('\n')
+			    else:
+			    	return response(400, {"result": {"status": "error", "code": 400, "message": "Bad Request!"}})
 			return response(200, {"result": {"status": "success", "code": 200, "message": "Ok! Dialing into the ringer zvonar"}})
 		else:
 			return response(401, {"result": {"status": "error", "code": 401, "message": "Unauthorized!"}})
