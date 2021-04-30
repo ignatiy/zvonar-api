@@ -21,6 +21,9 @@ else # инчае проверяем lock файл
                         filename=$(basename $file)
                         result="${filename%.*}"
 
+                        #sort test*.txt | awk '!seen[$0]++' test*.txt > test.txt
+                        #вкрутить вот сюда
+
                         if [ $result == 'IT_diallist' ]; then
                                 nohup ${RCVD}zvonar_it.sh > ${RCVD}zvonar.log &
                         elif [ $result == 'DR_diallist' ]; then
