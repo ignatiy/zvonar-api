@@ -8,6 +8,7 @@ import hashlib
 from markupsafe import escape
 import os
 import config
+import datetime
 # from app import config
 
 app = flask.Flask(__name__)
@@ -50,7 +51,8 @@ def index():
 def call(username, password, filename, diallist):
 	if request.method == 'GET':
 		if escape(username) == config.username and escape(password) == config.password:
-			out_file = "{0}{1}.txt".format(config.dir_upload, escape(filename))
+			timer = datetime.datetime.now()
+			out_file = "{0}{1}{2}.txt".format(config.dir_upload, escape(filename), timer.strftime('%H%M%S'))
 			lists = str(escape(diallist))
 			lst = lists.split(',')
 			for element in lst:
