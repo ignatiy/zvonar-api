@@ -1,4 +1,4 @@
-Zvonar API [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
+Zvonar API <img src="https://img.shields.io/pypi/pyversions/apache-airflow.svg">
 =================================================================================================================================================================================
 **Zvonar API** – проект автообзвона номеров через asterisk. Позволяет обзвонить Ваших клиентов за короткие сроки, не напрягая при этом call-центр.
 
