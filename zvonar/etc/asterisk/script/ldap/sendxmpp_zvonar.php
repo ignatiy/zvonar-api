@@ -11,13 +11,13 @@ $userlogin="";
 $xmppmessage="";
 
 /* Вытягиваем по номеру телефона инфу из AD */
-$LDAP_BINDDN = "ldap@tiara.local";
-$LDAP_PASS = "drtf077";
-$LDAP_BASE_DN = "DC=Tiara,DC=local";
+$LDAP_BINDDN = "ldap@домен.local";
+$LDAP_PASS = "пароль";
+$LDAP_BASE_DN = "DC=домен,DC=local";
 
 function ConnectToServer()
 {
-  $LDAP_SERVER = "192.168.0.244";
+  $LDAP_SERVER = "ip-address";
   $LDAP_PORT = "389";
   $ds=ldap_connect($LDAP_SERVER, $LDAP_PORT);
   ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
@@ -94,7 +94,7 @@ $phonefrom."\n".
 */
 
 /* Отправляем сообщение xmpp пользователю */
-$sendmessage="echo '".$xmppmessage."' | sendxmpp -t -n -j openfire.tiara.local:5222 -u jabberuser -p Qazxsw123 ".$userlogin."@tiara.local";
+$sendmessage="echo '".$xmppmessage."' | sendxmpp -t -n -j servername:5222 -u jabberuser -p пароль ".$userlogin."@домен.local";
 //echo $sendmessage;
 shell_exec($sendmessage);
 ?>
