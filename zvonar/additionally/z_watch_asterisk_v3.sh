@@ -1,9 +1,9 @@
 #!/bin/bash
 
-SRCD='/media/sysadmin2/Data/Project/zvonar-api/zvonar/additionally/test/' #исходная директория
-RCVD='/media/sysadmin2/Data/Project/zvonar-api/zvonar/additionally/tests/' #принимающая директория
-LOCK='/media/sysadmin2/Data/Project/zvonar-api/zvonar/additionally/test/zvonar*.lock' #файл блокировки
-SRCD_OLD='/media/sysadmin2/Data/Project/zvonar-api/zvonar/additionally/test/old/' #старые файлы
+SRCD='/media/sysadmin2/Data/Project/zvonar-api/zvonar/additionally/test2/' #исходная директория
+RCVD='/media/sysadmin2/Data/Project/zvonar-api/zvonar/additionally/test3/' #принимающая директория
+LOCK='/media/sysadmin2/Data/Project/zvonar-api/zvonar/additionally/test2/zvonar*.lock' #файл блокировки
+SRCD_OLD='/media/sysadmin2/Data/Project/zvonar-api/zvonar/additionally/test2/old/' #старые файлы
 
 result_test=`ls -A ${SRCD}test*.txt | wc -l`
 result_it=`ls -A ${SRCD}IT_diallist*.txt | wc -l`
@@ -22,7 +22,7 @@ else
 			sleep 1
 			mv ${SRCD}test*.txt $SRCD_OLD
 		else
-			echo "Файл test не существуют"
+			echo "Файлы test не существуют"
 		fi
 
 		if [[ "$result_it" > 0 ]]; then
@@ -30,7 +30,7 @@ else
 			sleep 1
 			mv ${SRCD}IT_diallist*.txt $SRCD_OLD
 		else
-			echo "Файл IT_diallist не существуют"
+			echo "Файлы IT_diallist не существуют"
 		fi
 
 		if [[ "$result_dr" > 0 ]]; then

@@ -3,4 +3,4 @@
 
 username = "admin"
 password = "admin"
-dir_upload = "/home/autodialer/upload/"
+dir_upload = "/media/sysadmin2/Data/Project/zvonar-api/app/uploads/"

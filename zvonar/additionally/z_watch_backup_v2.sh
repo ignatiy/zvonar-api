@@ -1,14 +1,17 @@
 #!/bin/bash
 
-SRCD='/media/cloud/' #исходная директория
+SRCD='/media/cloudmeitan/' #исходная директория
 RCVD='/home/autodialer/upload/' #принимающая директория
-SRCD_OLD='/media/cloudmeitan/old/'
+LOCK='/home/autodialer/upload/zvonar*.lock'
 
 if [ -z "$(ls -A ${SRCD})" ]; then
 	exit 0
 else
-	rsync -aAv --delete-after --ignore-errors ${SRCD}*.txt ${RCVD}
-	# rm -f ${SRCD}*.txt
-	sleep 1
-	mv ${SRCD}*.txt ${SRCD_OLD}
+	res=$(ls -A $LOCK | wc -l)
+	if [[ "$res" > 0 ]]; then # если есть lock файлы, выходим
+        echo "Копирование невозможно! Файл уже занят другой программой"
+        exit 0
+    else
+    	mv ${SRCD}*.txt ${RCVD}
+    fi
 fi
